@@ -98,6 +98,10 @@ def get_modified_times(ids_dict):
     return res
 
 
+class ForbiddenError(Exception):
+    pass
+
+
 @backoff.on_exception(backoff.expo, ForbiddenError, max_time=60)
 def get_last_modified(gid, session):
     template_url = 'https://www.googleapis.com/drive/v3/files/{id}' \
@@ -109,10 +113,6 @@ def get_last_modified(gid, session):
         raise ForbiddenError("Could not contact drive api. status: 403")
     body = r.json()
     return body['modifiedTime']
-
-
-class ForbiddenError(Exception):
-    pass
 
 
 def topological_sort(source):
