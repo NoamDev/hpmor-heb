@@ -9,7 +9,7 @@ script:
     - python publish.py
 before_deploy:
     - mkdir out
-    - cp dist out/
+    - cp -r dist out/
 deploy:
     provider: pages
     local_dir: out
