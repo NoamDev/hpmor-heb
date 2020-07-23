@@ -8,6 +8,7 @@ install:
 script:
     - python publish.py
 before_deploy:
+    - mkdir out
     - cp dist out/
 deploy:
     provider: pages
