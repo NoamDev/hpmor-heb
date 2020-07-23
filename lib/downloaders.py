@@ -76,7 +76,9 @@ class Downloader:
         except FileNotFoundError:
             return None
 
-    requires = []
+    @classmethod
+    def requires(cls):
+        return []
 
     @property
     @abstractmethod
@@ -107,7 +109,9 @@ class DocxDownloader(Downloader):
     file_ext = '.docx'
     dir_name = 'docx'
 
-    requires = [SuggestionsDocxDownloader]
+    @classmethod
+    def requires(cls):
+        return [SuggestionsDocxDownloader]
 
     async def do_download(self, gid):
         src = join('dist', 'cache', SuggestionsDocxDownloader.dir_name,

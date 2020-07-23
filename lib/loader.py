@@ -40,11 +40,11 @@ def load(name):
     # Add indirect requirements
     extended_requirements = requirements.copy()
     for downloader_cls, ids in requirements.items():
-        required = downloader_cls.requires
+        required = downloader_cls.requires()
         while required:
             cls = required.pop()
             extended_requirements[cls].update(ids)
-            required.extend(cls.requires)
+            required.extend(cls.requires())
     requirements = extended_requirements
 
     downloaders = {cls: cls(dist) for cls in requirements.keys()}
@@ -57,7 +57,7 @@ def load(name):
 
     # sort downloaders by dependency
     ordered_downloaders = collections.OrderedDict()
-    dependencies_list = [(cls, cls.requires) for cls in downloaders.keys()]
+    dependencies_list = [(cls, cls.requires()) for cls in downloaders.keys()]
     sorted_dependencies = topological_sort(dependencies_list)
 
     for cls in sorted_dependencies:
@@ -109,7 +109,7 @@ def get_last_modified(gid, session):
     url = template_url.format(id=gid, key=os.environ['DRIVE_API_KEY'])
     r = session.get(url)
     if r.status_code == 403:
-        print(r.json())
+        print("get_last_modified: too many requests. maybe retrying..")
         raise ForbiddenError("Could not contact drive api. status: 403")
     body = r.json()
     return body['modifiedTime']
