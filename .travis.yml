@@ -7,7 +7,7 @@ install:
 
 script:
     - python publish.py
-after_script:
+before_deploy:
     - cp dist out/
 deploy:
     provider: pages
