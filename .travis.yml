@@ -11,3 +11,4 @@ script:
 deploy:
     provider: script
     script: sh travis-push.sh
+    cleanup: false
