@@ -7,15 +7,7 @@ install:
 
 script:
     - python publish.py
-before_deploy:
-    - mkdir out
-    - cp -r dist out/
+
 deploy:
-    provider: pages
-    local_dir: out
-    skip_cleanup: true
-    github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-    keep_history: true
-    target_branch: master_demo
-    on:
-        branch: master
+    provider: script
+    script: sh travis-push.sh
