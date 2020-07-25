@@ -9,7 +9,7 @@ setup_git() {
 commit_website_files() {
   git checkout -b master2
   git add -f dist # Force is required becuase dist is ignored
-  git commit --message "Travis build: $TRAVIS_BUILD_NUMBER [skip-ci]"
+  git commit --message "Travis build: $TRAVIS_BUILD_NUMBER [skip ci]"
 }
 
 upload_files() {
