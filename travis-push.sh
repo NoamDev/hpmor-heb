@@ -6,15 +6,14 @@ setup_git() {
 }
 
 commit_website_files() {
-  git checkout -b master
+  git checkout master
   git add -f dist # Force is required becuase dist is ignored
   git commit --message "Travis build: $TRAVIS_BUILD_NUMBER [skip ci]"
 }
 
 upload_files() {
   git remote add origin-deploy https://${GITHUB_TOKEN}@github.com/NoamDev/hpmor-heb.git > /dev/null 2>&1
-  git pull
-  git push --quiet --set-upstream origin-deploy master
+  git push --quiet --force --set-upstream origin-deploy master
 }
 
 setup_git
