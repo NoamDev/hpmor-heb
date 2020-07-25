@@ -72,14 +72,14 @@ def load(name):
     for dist_path, packers in packers_dict.items():
         for packer in packers:
             # if not requirements have changed since last build we can skip
-            if should_skip(packer, requirements, ids_dict, dist_path):
+            if should_skip(packer, modified, ids_dict, dist_path):
                 continue
             os.makedirs(dist_path, exist_ok=True)
             packer.pack(dist_path, ids_dict)
 
 
-def should_skip(packer, requirements, ids_dict, dist_path):
-    return not any(requirements[cls].intersection(ids)
+def should_skip(packer, modified, ids_dict, dist_path):
+    return not any(modified[cls].intersection(ids)
                    for cls, ids in packer.requirements(ids_dict)) \
                and isfile(packer.get_dst(dist_path))
 
