@@ -1,4 +1,3 @@
-
 #!/bin/sh
 
 setup_git() {
@@ -14,6 +13,7 @@ commit_website_files() {
 
 upload_files() {
   git remote add origin-deploy https://${GITHUB_TOKEN}@github.com/NoamDev/hpmor-heb.git > /dev/null 2>&1
+  git pull
   git push --quiet --set-upstream origin-deploy master
 }
 
