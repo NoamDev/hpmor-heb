@@ -2,7 +2,8 @@ from shutil import copyfile
 from os.path import join, dirname
 import os
 import docx
-from lib.downloaders import TextDownloader
+from PyPDF2 import PdfFileMerger, PdfFileWriter, PdfFileReader
+from lib.downloaders import TextDownloader, PdfDownloader
 
 
 class Chap:
@@ -91,3 +92,30 @@ class TextMerge:
                     if index != 0:
                         outfile.write(page_break)
                     outfile.write(fin.read())
+
+
+class PdfMerge:
+    def __init__(self, name, names):
+        self.name = name
+        self.names = names
+        self.downloader_cls = PdfDownloader
+
+    def requirements(self, id_dict):
+        return [(self.downloader_cls, [id_dict[name] for name in self.names])]
+
+    def get_dst(self, directory):
+        return join(directory, self.name + '.pdf')
+
+    def pack(self, directory, id_dict):
+        doc_list = [join('dist', 'cache', self.downloader_cls.dir_name,
+                    id_dict[name] + '.pdf') for name in self.names]
+
+        pdf_writer = PdfFileWriter()
+
+        for pdf in doc_list:
+            pdf_reader = PdfFileReader(pdf)
+            for page in range(pdf_reader.getNumPages()):
+                pdf_writer.addPage(pdf_reader.getPage(page))
+
+        with open(self.get_dst(directory), 'wb') as fh:
+            pdf_writer.write(fh)
