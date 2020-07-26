@@ -54,7 +54,8 @@ def load(name):
 
     # Do not use cache when build was triggered by commit.
     if os.getenv('TRAVIS_EVENT_TYPE', '') == 'push':
-        modified = {cls: list(ids_dict.values())}
+        modified = {cls: list(ids_dict.values())
+                    for cls, d in downloaders.items()}
     else:
         modified = {cls: get_modified_ids(d, modified_times)
                     for cls, d in downloaders.items()}
