@@ -79,6 +79,6 @@ class TextMerge:
         file_list = [join('dist', 'cache', self.downloader_cls.dir_name,
                      id_dict[name] + '.txt') for name in self.names]
         with open(self.get_dst(directory), 'wb') as outfile:
-            for f in file_list:
-                with open(f, 'rb') as fin:
-                    outfile.write(f.read())
+            for path in file_list:
+                with open(path, 'rb') as fin:
+                    outfile.write(fin.read())
