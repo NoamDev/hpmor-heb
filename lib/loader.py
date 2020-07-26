@@ -83,7 +83,7 @@ def load(name):
 
 
 def should_skip(packer, modified, ids_dict, dist_path):
-    return not any(modified[cls].intersection(ids)
+    return not any(set(modified[cls]).intersection(ids)
                    for cls, ids in packer.requirements(ids_dict)) \
                and isfile(packer.get_dst(dist_path))
 
