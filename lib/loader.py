@@ -53,7 +53,7 @@ def load(name):
         requirements[cls].update(ids)
 
     # Do not use cache when build was triggered by commit.
-    if os.getenv(TRAVIS_EVENT_TYPE, '') == 'push':
+    if os.getenv('TRAVIS_EVENT_TYPE', '') == 'push':
         modified = {cls: list(ids_dict.values())}
     else:
         modified = {cls: get_modified_ids(d, modified_times)
