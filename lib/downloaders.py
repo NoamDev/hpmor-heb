@@ -12,6 +12,8 @@ from typing import List
 import asyncio
 import aiohttp
 
+import docx
+
 done = set()
 
 
@@ -103,6 +105,15 @@ class SuggestionsDocxDownloader(Downloader):
         file = join(self.folder, gid + '.docx')
         file_type = 'docx'
         await self.download_mime(file, gid, file_type)
+
+        # Word requires cs_italic and cs_bold for hebrew characters
+        doc = docx.Document(file)
+        for p in doc.paragraphs:
+            for r in p.runs:
+                if r.font.italic:
+                    r.font.cs_italic = True
+                if r.font.bold:
+                    r.font.cs_bold = True
 
 
 class DocxDownloader(Downloader):
