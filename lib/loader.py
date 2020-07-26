@@ -52,8 +52,12 @@ def load(name):
         d = downloaders[cls]
         requirements[cls].update(ids)
 
-    modified = {cls: get_modified_ids(d, modified_times)
-                for cls, d in downloaders.items()}
+    # Do not use cache when build was triggered by commit.
+    if os.getenv(TRAVIS_EVENT_TYPE, '') == 'push':
+        modified = {cls: list(ids_dict.values())}
+    else:
+        modified = {cls: get_modified_ids(d, modified_times)
+                    for cls, d in downloaders.items()}
 
     # sort downloaders by dependency
     ordered_downloaders = collections.OrderedDict()
