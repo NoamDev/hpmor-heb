@@ -78,7 +78,14 @@ class TextMerge:
     def pack(self, directory, id_dict):
         file_list = [join('dist', 'cache', self.downloader_cls.dir_name,
                      id_dict[name] + '.txt') for name in self.names]
+
+        page_break = """
+        ###############################################################
+        """.encode('utf-8-sig')
+
         with open(self.get_dst(directory), 'wb') as outfile:
-            for path in file_list:
+            for index, path in enumerate(file_list):
                 with open(path, 'rb') as fin:
+                    if index != 0:
+                        outfile.write(page_break)
                     outfile.write(fin.read())
