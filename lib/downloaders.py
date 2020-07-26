@@ -112,8 +112,6 @@ class SuggestionsDocxDownloader(Downloader):
                     r.font.cs_italic = True
                 if r.font.bold:
                     r.font.cs_bold = True
-        
-        print("finished")
 
 
 class DocxDownloader(Downloader):
