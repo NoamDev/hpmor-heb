@@ -56,10 +56,9 @@ class Downloader:
     async def download_mime(self, file, gid, file_type):
         url = 'https://docs.google.com/document/d/{id}/export?format={type}' \
                 .format(id=gid, type=file_type)
-        r = await self.s.get(url)
-
-        open(file, 'wb').write(await r.read())
-        pass
+        r = await self.s.get(url, raise_for_status=True)
+        content = await r.read()
+        open(file, 'wb').write(content)
 
     async def download_single(self, gid):
         """ A wrapper method for do_download
@@ -105,7 +104,6 @@ class SuggestionsDocxDownloader(Downloader):
         file = join(self.folder, gid + '.docx')
         file_type = 'docx'
         await self.download_mime(file, gid, file_type)
-
         # Word requires cs_italic and cs_bold for hebrew characters
         doc = docx.Document(file)
         for p in doc.paragraphs:
@@ -114,6 +112,8 @@ class SuggestionsDocxDownloader(Downloader):
                     r.font.cs_italic = True
                 if r.font.bold:
                     r.font.cs_bold = True
+        
+        print("finished")
 
 
 class DocxDownloader(Downloader):
