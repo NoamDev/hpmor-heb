@@ -80,8 +80,10 @@ class TextMerge:
                      id_dict[name] + '.txt') for name in self.names]
 
         page_break = """
-        ###############################################################
-        """.encode('utf-8-sig')
+
+###############################################################
+
+""".encode('utf-8-sig')
 
         with open(self.get_dst(directory), 'wb') as outfile:
             for index, path in enumerate(file_list):
