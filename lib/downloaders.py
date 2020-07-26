@@ -140,6 +140,16 @@ class PdfDownloader(Downloader):
         await self.download_mime(file, gid, file_type)
 
 
+class TextDownloader(Downloader):
+    file_ext = '.txt'
+    dir_name = 'txt'
+
+    async def do_download(self, gid):
+        file = join(self.folder, gid + '.txt')
+        file_type = 'txt'
+        await self.download_mime(file, gid, file_type)
+
+
 class EpubDownloader(Downloader):
     file_ext = '.epub'
     dir_name = 'epub'

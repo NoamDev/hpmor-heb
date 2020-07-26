@@ -2,6 +2,7 @@ from shutil import copyfile
 from os.path import join, dirname
 import os
 import docx
+from lib.downloaders import TextDownloader
 
 
 class Chap:
@@ -60,3 +61,24 @@ class DocxMerge:
 
         # saving the newly created merged document
         first_doc.save(self.get_dst(directory))
+
+
+class TextMerge:
+    def __init__(self, name, names):
+        self.name = name
+        self.names = names
+        self.downloader_cls = TextDownloader
+
+    def requirements(self, id_dict):
+        return [(self.downloader_cls, [id_dict[name] for name in self.names])]
+
+    def get_dst(self, directory):
+        return join(directory, self.name + '.txt')
+
+    def pack(self, directory, id_dict):
+        file_list = [join('dist', 'cache', self.downloader_cls.dir_name,
+                     id_dict[name] + '.txt') for name in self.names]
+        with open(self.get_dst(directory), 'wb') as outfile:
+            for f in file_list:
+                with open(f, 'rb') as fin:
+                    outfile.write(f.read())
