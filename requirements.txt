@@ -8,7 +8,7 @@ idna==2.10
 lxml==4.6.3
 multidict==4.7.6
 pycodestyle==2.6.0
-PyPDF2==1.26.0
+PyPDF2==1.27.5
 python-docx==0.8.10
 requests==2.24.0
 six==1.15.0
