@@ -1,8 +1,8 @@
-﻿aiohttp==3.6.2
+aiohttp==3.6.2
 async-timeout==3.0.1
 attrs==19.3.0
 backoff==1.10.0
-certifi==2020.6.20
+certifi==2023.7.22
 chardet==3.0.4
 idna==2.10
 lxml==4.6.3
